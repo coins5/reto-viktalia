@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 html, body {
@@ -18,3 +20,8 @@ body {
 .mat-mdc-dialog-actions {
   justify-content: flex-end;
 }
+
+.mat-icon {
+  font-family: 'Material Icons' !important;
+}
+
