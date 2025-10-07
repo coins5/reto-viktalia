@@ -49,6 +49,18 @@ make test-frontend # npm test --watch=false
 
 ## Estructura destacada
 
+## Arquitectura
+
+El backend sigue un enfoque de **Clean Architecture**:
+
+- `backend/Clientes.Domain`: capa de dominio con entidades y reglas sin dependencias externas.
+- `backend/Clientes.Application`: casos de uso, DTOs, validadores y servicios, dependiendo sólo del dominio y de interfaces.
+- `backend/Clientes.Infrastructure`: implementaciones concretas (EF Core, Oracle, seeders, servicios de sistema), satisfaciendo las interfaces de aplicación.
+- `backend/Clientes.Api`: capa más externa con controllers, middleware, configuraciones (Serilog, Swagger, CORS).
+
+El frontend Angular consume los endpoints REST expuestos por la API y se mantiene desacoplado de las capas internas.
+
+
 - `backend/Clientes.Api`: API con Clean Architecture, validaciones FluentValidation, AutoMapper y Serilog.
 - `backend/Clientes.Infrastructure`: EF Core con proveedor Oracle Free 23c, migraciones y seeding.
 - `clientes-web/src/app/clientes`: listado, formulario, guardas e interceptores.
