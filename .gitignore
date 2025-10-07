@@ -1,0 +1,37 @@
+# Global ignores
+.DS_Store
+Thumbs.db
+*.log
+logs/
+*.tmp
+*.swp
+*.swo
+*.orig
+
+# Dotnet / Backend
+backend/**/bin/
+backend/**/obj/
+backend/**/.vs/
+backend/**/TestResults/
+backend/**/coverage/
+backend/**/Logs/
+backend/Clientes.Api/Properties/launchSettings.json
+backend/Clientes.Api/logs/
+backend/**/appsettings.*.local.json
+
+# Angular / Frontend
+clientes-web/node_modules/
+clientes-web/dist/
+clientes-web/.angular/cache/
+clientes-web/.eslintcache
+clientes-web/.vscode/
+
+# Docker artifacts
+oracle-data/
+**/*.pid
+**/.env.local
+
+# Tooling
+.tool-versions
+.idea/
+.vscode/

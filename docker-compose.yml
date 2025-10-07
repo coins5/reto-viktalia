@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  oracle:
+    image: gvenzl/oracle-free:23.3-slim
+    container_name: clientes-oracle
+    environment:
+      ORACLE_PASSWORD: oracle
+      APP_USER: clientes_app
+      APP_USER_PASSWORD: clientes_app
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - ./backend/database/oracle/init.sql:/container-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/bin/sh",
+          "-c",
+          "echo 'select 1 from dual;' | sqlplus -s clientes_app/clientes_app@localhost:1521/FREEPDB1",
+        ]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Clientes.Api/Dockerfile
+    container_name: clientes-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Oracle: User Id=clientes_app;Password=clientes_app;Data Source=oracle:1521/FREEPDB1;
+      UseInMemoryDatabase: "false"
+      Serilog__MinimumLevel__Default: Information
+    depends_on:
+      oracle:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./clientes-web
+      dockerfile: Dockerfile
+    container_name: clientes-frontend
+    depends_on:
+      - api
+    ports:
+      - "4200:4200"
+
+volumes:
+  oracle-data:

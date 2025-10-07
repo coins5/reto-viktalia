@@ -1,0 +1,90 @@
+<section class="clientes-page" [class.is-loading]="loading">
+  <mat-card class="clientes-card">
+    <mat-card-title>Clientes</mat-card-title>
+    <mat-card-subtitle>Gestiona los clientes registrados y aplica filtros de búsqueda.</mat-card-subtitle>
+
+    <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="filters-form">
+      <mat-form-field appearance="outline">
+        <mat-label>RUC</mat-label>
+        <input matInput formControlName="ruc" maxlength="11" placeholder="Ingrese RUC" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Razón social</mat-label>
+        <input matInput formControlName="razonSocial" placeholder="Ingrese razón social" />
+      </mat-form-field>
+
+      <div class="filters-form__actions">
+        <button mat-flat-button color="primary" type="submit">Buscar</button>
+        <button mat-button type="button" (click)="resetFilters()">Limpiar</button>
+        <span class="filters-form__spacer"></span>
+        <button mat-flat-button color="accent" type="button" (click)="navigateToCreate()">
+          <mat-icon>add</mat-icon>
+          Nuevo cliente
+        </button>
+      </div>
+    </form>
+
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
+        <ng-container matColumnDef="ruc">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="ruc">RUC</th>
+          <td mat-cell *matCellDef="let cliente">{{ cliente.ruc }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="razonSocial">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="razonsocial">Razón Social</th>
+          <td mat-cell *matCellDef="let cliente">{{ cliente.razonSocial }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="telefonoContacto">
+          <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+          <td mat-cell *matCellDef="let cliente">{{ cliente.telefonoContacto || '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="correoContacto">
+          <th mat-header-cell *matHeaderCellDef>Correo</th>
+          <td mat-cell *matCellDef="let cliente">{{ cliente.correoContacto || '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="direccion">
+          <th mat-header-cell *matHeaderCellDef>Dirección</th>
+          <td mat-cell *matCellDef="let cliente">{{ cliente.direccion || '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let cliente" class="actions-cell">
+            <button mat-icon-button color="primary" matTooltip="Editar" (click)="navigateToEdit(cliente)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" matTooltip="Eliminar" (click)="deleteCliente(cliente)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <div class="empty-state" *ngIf="!loading && dataSource.data.length === 0">
+        <mat-icon>groups</mat-icon>
+        <p>No se encontraron clientes para los filtros aplicados.</p>
+      </div>
+    </div>
+
+    <mat-paginator
+      [pageSizeOptions]="pageSizeOptions"
+      [length]="total"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      (page)="onPageChange($event)"
+      showFirstLastButtons
+    ></mat-paginator>
+  </mat-card>
+
+  <div class="loading-overlay" *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</section>

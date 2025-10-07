@@ -1,0 +1,59 @@
+<mat-card class="cliente-form-card">
+  <mat-card-title>{{ isEditMode ? 'Editar cliente' : 'Nuevo cliente' }}</mat-card-title>
+  <mat-card-subtitle>
+    Completa los datos obligatorios. Los campos opcionales ayudan a enriquecer la ficha del cliente.
+  </mat-card-subtitle>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="cliente-form">
+    <div class="cliente-form__row">
+      <mat-form-field appearance="outline">
+        <mat-label>RUC</mat-label>
+        <input matInput formControlName="ruc" maxlength="11" />
+        <mat-error *ngIf="form.controls['ruc'].hasError('required')">El RUC es requerido.</mat-error>
+        <mat-error *ngIf="form.controls['ruc'].hasError('pattern')">El RUC debe tener 11 dígitos numéricos.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Razón social</mat-label>
+        <input matInput formControlName="razonSocial" maxlength="150" />
+        <mat-error *ngIf="form.controls['razonSocial'].hasError('required')">La razón social es requerida.</mat-error>
+        <mat-error *ngIf="form.controls['razonSocial'].hasError('minlength')">Debe tener al menos 3 caracteres.</mat-error>
+        <mat-error *ngIf="form.controls['razonSocial'].hasError('maxlength')">No debe exceder 150 caracteres.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="cliente-form__row">
+      <mat-form-field appearance="outline">
+        <mat-label>Teléfono de contacto</mat-label>
+        <input matInput formControlName="telefonoContacto" maxlength="15" />
+        <mat-hint>Opcional</mat-hint>
+        <mat-error *ngIf="form.controls['telefonoContacto'].hasError('pattern')">Debe tener entre 7 y 15 dígitos.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Correo de contacto</mat-label>
+        <input matInput formControlName="correoContacto" />
+        <mat-hint>Opcional</mat-hint>
+        <mat-error *ngIf="form.controls['correoContacto'].hasError('email')">Formato de correo inválido.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="cliente-form__full">
+      <mat-label>Dirección</mat-label>
+      <textarea matInput formControlName="direccion" rows="3" maxlength="200"></textarea>
+      <mat-hint>Opcional</mat-hint>
+      <mat-error *ngIf="form.controls['direccion'].hasError('maxlength')">No debe exceder 200 caracteres.</mat-error>
+    </mat-form-field>
+
+    <div class="cliente-form__actions">
+      <button mat-button type="button" (click)="cancel()">Cancelar</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+        {{ isEditMode ? 'Guardar cambios' : 'Crear cliente' }}
+      </button>
+    </div>
+  </form>
+
+  <div class="loading-overlay" *ngIf="loading || saving">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</mat-card>

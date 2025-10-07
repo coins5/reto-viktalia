@@ -1,0 +1,36 @@
+.cliente-form-card {
+  position: relative;
+  padding: 24px;
+}
+
+.cliente-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cliente-form__row {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.cliente-form__full {
+  width: 100%;
+}
+
+.cliente-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.7);
+}

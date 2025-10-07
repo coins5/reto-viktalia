@@ -1,0 +1,37 @@
+### Obtener clientes (paginado, filtros y ordenamiento)
+GET http://localhost:8080/api/clientes?page=1&pageSize=10&sortBy=razonsocial&sortDir=asc&ruc=201&razonSocial=Andina
+Accept: application/json
+
+### Obtener cliente por ID
+GET http://localhost:8080/api/clientes/1
+Accept: application/json
+
+### Crear cliente
+POST http://localhost:8080/api/clientes
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ruc": "20987654321",
+  "razonSocial": "Cliente Ejemplo SAC",
+  "telefonoContacto": "012345678",
+  "correoContacto": "contacto@clienteejemplo.pe",
+  "direccion": "Av. Ejemplo 123, Lima"
+}
+
+### Actualizar cliente
+PUT http://localhost:8080/api/clientes/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ruc": "20100070970",
+  "razonSocial": "Distribuidora Andina SAC",
+  "telefonoContacto": "012345678",
+  "correoContacto": "contacto@andina.com",
+  "direccion": "Av. Los Laureles 123, Lima"
+}
+
+### Eliminar cliente
+DELETE http://localhost:8080/api/clientes/1
+Accept: application/json
